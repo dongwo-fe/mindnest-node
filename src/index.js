@@ -12,6 +12,9 @@ if (!process.env.NODE_ENV) process.env.NODE_ENV = {}
 const app = express()
 const port = process.env.NODE_ENV.PORT || 3000
 
+initKey()
+checkDataFile();
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -22,12 +25,8 @@ app.use(express.urlencoded({ extended: true }))
 app.use("/api_test", test);
 app.use("/api_data", data);
 
-
-checkDataFile();
-
 app.listen(port, () => {
     console.log(`服务启动 http://localhost:${port}`)
-    initKey()
 })
 
 // 自定义范围内容
