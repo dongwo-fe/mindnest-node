@@ -1,0 +1,27 @@
+{
+  "name": "mindnest-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dongwo-fe/mindnest-node.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/dongwo-fe/mindnest-node/issues"
+  },
+  "homepage": "https://github.com/dongwo-fe/mindnest-node#readme",
+  "volta": {
+    "node": "22.16.0"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
