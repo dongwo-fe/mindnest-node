@@ -1,7 +1,7 @@
 # API 文档
 
 ## 1. 全局鉴权说明
-所有 API 请求需在 Header 中携带固定的 `Authorization` Key 进行鉴权校验。  
+所有 API 请求需在 Header 中携带固定的 `Authorization` Key 进行鉴权校验。系统生成的key需要使用md5加密
 示例：
 
 ---
