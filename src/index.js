@@ -15,13 +15,11 @@ const port = process.env.NODE_ENV.PORT || 3000
 initKey()
 checkDataFile();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// 初始化扩展
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // 初始化路由
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-
 app.use("/api_test", test);
 app.use("/api_data", data);
 
@@ -30,9 +28,16 @@ app.listen(port, () => {
 })
 
 // 自定义范围内容
-app.response.sendError = function (code, message) {
+app.response.sendError = function (code, message = "操作失败") {
     this.status(code).json({
         code: code,
+        message: message
+    });
+}
+app.response.sendSuccess = function (data, message = "操作成功") {
+    this.status(200).json({
+        code: 200,
+        data,
         message: message
     });
 }

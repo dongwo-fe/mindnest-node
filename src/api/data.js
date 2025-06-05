@@ -4,6 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 import { authMiddleware } from '../middleware/auth.js';
+import { getCatalogue } from '../service/data.js';
 
 const router = express.Router();
 
@@ -39,8 +40,11 @@ const upload = multer({
     // }
 });
 
+// 获取文件列表
 router.get('/', (req, res) => {
+    const data = getCatalogue()
     res.send('Welcome to the API!');
+    res.sendSuccess(data);
 });
 
 // 更新文件
@@ -49,5 +53,27 @@ router.post('/update', upload.single("filedata"), (req, res) => {
     console.log(req.file)
 
     res.send("200")
-})
+    res.sendSuccess({
+        filename: req.file.originalname,
+        size: req.file.size,
+    })
+});
+
+// 下载单文件
+router.get('/download', (req, res) => {
+    const filePath = path.join('notes', req.query.filename);
+
+    // 检查文件是否存在
+    if (fs.existsSync(filePath)) {
+        res.download(filePath, (err) => {
+            if (err) {
+                console.error("下载文件失败:", err);
+                res.sendError(500, "下载文件失败");
+            }
+        });
+    } else {
+        res.sendError(404, "文件不存在");
+    }
+});
+
 export default router;

@@ -23,3 +23,48 @@ export function checkDataFile() {
         fs.mkdirSync(noteDir, { recursive: true });
     }
 }
+
+let catalogueData = null;
+
+// 获取目录数据
+export function getCatalogue() {
+    if (catalogueData === null) {
+        // 读取数据文件
+        const data = fs.readFileSync(cataloguePath, 'utf8');
+        catalogueData = JSON.parse(data);
+    }
+    return catalogueData;
+}
+
+export function updateFileData(filepath) {
+    if (catalogueData === null) {
+        getCatalogue()
+    }
+    // 按照path的层级放文件的目录层级
+    filepath = filepath.replace(/\\/g, '/'); // 替换反斜杠为正斜杠，确保路径格式一致
+    const list = filepath.split('/');
+    if (list.length > 0 && list[0] === ".") list.shift(); // 如果路径以点开头，移除第一个元素
+    if (list.length > 0 && list[0] === "..") list.shift(); // 如果路径以点点开头，移除第一个元素
+    const filename = list.pop(); // 获取文件名
+
+    let curdata = catalogueData
+    if (list.length > 1) {
+        for (let i = 0; i < list.length - 1; i++) {
+            if (!curdata[list[i]]) {
+                curdata[list[i]] = {};
+            }
+            curdata = curdata[list[i]]; // 更新当前数据指针
+        }
+        curdata[list[list.length - 1]] = {
+            name: filename,
+            type: "file",
+            date: Date.now()
+        }
+    } else {
+        curdata[filename] = {
+            name: filename,
+            type: "file",
+            date: Date.now()
+        }
+    }
+}

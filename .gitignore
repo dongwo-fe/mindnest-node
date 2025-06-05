@@ -4,3 +4,4 @@ dist/
 .key
 .data.json
 notes/
+test.js
